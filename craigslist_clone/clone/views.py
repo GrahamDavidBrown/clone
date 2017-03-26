@@ -1,16 +1,23 @@
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from clone.models import City, User_Profile, Listing, Category, Sub_Category
 from django.contrib.auth.models import User
 from .forms import CityForm, RegistrationForm, NewListingForm
-from django.contrib.auth import views as auth_views
 
 
 def home(request):
-    cities = City.objects.all()
-    form = CityForm
-    context = {'username': request.user.username, "id": request.user.id, "cities": cities, "form": form}
-    return render(request, 'clone/city_pick.html', context)
+    try:
+        User_Profile.objects.get(id=request.user.id)
+        your_city = User_Profile.objects.get(id=request.user.id).city_id
+        your_city = City.objects.get(id=your_city)
+        mylistings = Listing.objects.filter(owner_id=request.user.id)
+        context = {'mylistings': mylistings, 'name': request.user.username, 'city': your_city}
+        return render(request, 'clone/mylistings.html', context)
+    except:
+        cities = City.objects.all()
+        form = CityForm
+        context = {'username': request.user.username, "id": request.user.id, "cities": cities, "form": form}
+        return render(request, 'clone/city_pick.html', context)
 
 
 def mylistings(request):
