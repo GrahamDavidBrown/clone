@@ -15,7 +15,7 @@
     </h4>
     <ul>
       {% for listing in mylistings %}
-      {{listing.title}}
+      <li><a href='http://127.0.0.1:8000/listing_view/{{city.name}}/{{categories}}/{{listing.title}}'>{{listing.title}}</li>
       {% endfor %}
     </ul>
   </body>

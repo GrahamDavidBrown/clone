@@ -36,7 +36,8 @@ def mylistings(request):
             user_profile = User_Profile(user_id=request.user.id, city_id=your_city.id)
             user_profile.save()
             mylistings = Listing.objects.filter(owner_id=user_profile.user_id)
-            context = {'mylistings': mylistings, 'name': request.user.username, 'city': your_city}
+            categories = {listing.id: Sub_Category.objects.get(id=listing.category_id).name for listing in mylistings}
+            context = {'mylistings': mylistings, 'name': request.user.username, 'city': your_city, 'categories': categories}
             return render(request, 'clone/mylistings.html', context)
 
     # if a GET (or any other method) we'll create a blank form
