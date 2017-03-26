@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>City Selector</title>
+  </head>
+  <body>
+    <ul>
+      <form action="/mylistings/" method="post">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="Submit" />
+        </form>
+      </form>
+    {{"Choose A City:"}}
+        <ul>
+          {% for city in cities %}
+            <li>{{city.name}}</li>
+          {% endfor %}
+        </ul>
+    </ul>
+  </body>
+</html>

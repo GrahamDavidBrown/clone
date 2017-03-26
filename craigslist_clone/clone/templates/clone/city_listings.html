@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Categories</title>
+  </head>
+  <body>
+    {% for category in categories %}
+    <h3>{{category.category}}</h3>
+      <ul>
+      {% for sub_cat in sub_cats %}
+        {% if sub_cat.category_id == category.id  %}
+          <li><a href="http://127.0.0.1:8000/category_view/{{city.name}}/{{sub_cat.name}}/">{{sub_cat.name}}</a></li>
+        {% endif %}
+      {% endfor %}
+    </ul>
+    {% endfor %}
+  </body>
+</html>

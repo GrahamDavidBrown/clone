@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>title</title>
+  </head>
+  <body>
+    <a href=http://127.0.0.1:8000/ > logout</a>
+    <h2>
+    Welcome, {{name}}
+    </h2>
+    <li><a href="http://127.0.0.1:8000/city_listings/{{city.name}}/">{{city.name}} listings</a></li>
+    <h4>
+      Your listings:
+    </h4>
+    <ul>
+      {% for listing in mylistings %}
+      {{listing.title}}
+      {% endfor %}
+    </ul>
+  </body>
+</html>
