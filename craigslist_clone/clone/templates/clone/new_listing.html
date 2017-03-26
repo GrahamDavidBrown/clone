@@ -5,9 +5,9 @@
     <title>New Listing</title>
   </head>
   <body>
-    {{city}}
-    {{sub_cat.name}}
-      <form action="/create_listing/{{city}}/{{sub_cat}}/" method="post">
+    {{city_id}}
+    {{sub_cat}}
+      <form action="/create_listing/{{city_id}}/{{sub_cat}}/", method="post">
       {% csrf_token %}
       {{ form }}
       <input type="submit" value="Submit" />

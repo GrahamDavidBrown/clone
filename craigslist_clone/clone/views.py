@@ -45,13 +45,16 @@ def city_listings(request, city_id):
     city_listings = Listing.objects.filter(city=city)
     categories = Category.objects.filter()
     sub_cats = Sub_Category.objects.filter()
-    context = {'categories': categories, 'sub_cats': sub_cats, 'city': city}
+    context = {'categories': categories, 'sub_cats': sub_cats, 'city_id': city.name}
     return render(request, 'clone/city_listings.html', context)
     # return render(request, 'clone/city_listings.html', context)
 
 
 def category_view(request, city_id, sub_cat):
-    context = {'city': City.objects.get(name=city_id), 'sub_cat': Sub_Category.objects.get(name=sub_cat)}
+    city_id = City.objects.get(name=city_id)
+    sub_cat = Sub_Category.objects.get(name=sub_cat)
+    listings = Listing.objects.filter(category_id=sub_cat.id, city_id=city_id.id)
+    context = {'listings': listings, 'city': city_id.name, 'sub_cat': sub_cat}
     return render(request, 'clone/sub_cat_view.html', context)
 
 
@@ -80,7 +83,7 @@ def registration(request):
 
 def new_listing(request, city_id, sub_cat):
     form = NewListingForm
-    context = {'form': form, 'city': city_id, "sub_cat": sub_cat}
+    context = {'form': form, 'city_id': city_id, "sub_cat": sub_cat}
     return render(request, 'clone/new_listing.html', context)
 
 
@@ -91,11 +94,18 @@ def create_listing(request, city_id, sub_cat):
             description = form.cleaned_data['description']
             title = form.cleaned_data['title']
             picture_link = form.cleaned_data['picture_link']
-            sub_cat = Sub_Category.objects.get(name=sub_cat).id
-            city_id = City.objects.get(name=city_id).id
+            sub_cat = Sub_Category.objects.get(name=sub_cat)
+            city_id = City.objects.get(name=city_id)
             owner_id = request.user.id
-            listing = Listing(owner_id=owner_id, description=description, picture_link=picture_link, category_id=sub_cat, city_id=city_id, title=title)
+            listing = Listing(owner_id=owner_id, description=description, picture_link=picture_link, category_id=sub_cat.id, city_id=city_id.id, title=title)
             listing.save()
-            return HttpResponseRedirect("http://127.0.0.1:8000/")
+            return HttpResponseRedirect("http://127.0.0.1:8000/category_view/{}/{}/".format(city_id.name, sub_cat.name))
         else:
             return HttpResponseRedirect("http://127.0.0.1:8000/")
+
+
+def listing_view(request, city_id, sub_cat, listing_title):
+    category_id = Sub_Category.objects.get(name=sub_cat).id
+    listing = Listing.objects.get(title=listing_title, category_id=category_id)
+    context = {'city_id': city_id, 'sub_cat': sub_cat, "listing": listing}
+    return render(request, 'clone/listing_view.html', context)

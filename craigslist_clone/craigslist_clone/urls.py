@@ -30,5 +30,6 @@ urlpatterns = [
     url(r'^register/', views.register),
     url(r'^registration/', views.registration),
     url(r'^new_listing/(?P<city_id>[\w\s]+)/(?P<sub_cat>[\w\s]+)/', views.new_listing),
-    url(r'^create_listing/(?P<city_id>[\w\s]+)/(?P<sub_cat>[\w\s]+)/', views.create_listing)
+    url(r'^create_listing/(?P<city_id>[\w\s]+)/(?P<sub_cat>[\w\s]+)/', views.create_listing),
+    url(r'^listing_view/(?P<city_id>[\w\s]+)/(?P<sub_cat>[\w\s]+)/(?P<listing_title>[\w\s]+)/', views.listing_view)
 ]

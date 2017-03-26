@@ -5,9 +5,14 @@
     <title>{{sub_cat}}</title>
   </head>
   <body>
-    {{city.name}}
+    {{city}}
     {{sub_cat.name}}
     <br>
-    <a href="http://127.0.0.1:8000/new_listing/{{city.name}}/{{sub_cat.name}}/">Post a Listing</a>
+    <a href="http://127.0.0.1:8000/new_listing/{{city}}/{{sub_cat.name}}/">Post a Listing</a>
+    <br>
+    <br>
+    {% for listing in listings %}
+      <a href='http://127.0.0.1:8000/listing_view/{{city}}/{{sub_cat.name}}/{{listing.title}}' > {{listing.title}}</a><br>
+    {% endfor %}
   </body>
 </html>
